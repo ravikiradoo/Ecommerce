@@ -1,0 +1,10 @@
+{% for profile in BP %}
+<h3>Name: {{ profile.First_Name }} {{ profile.Last_Name }}</h3>
+<h3>{{ profile.Email }}</h3>
+{% for card in profile.Card.all %}
+<h4>Name on the card {{ card.Name }}</h4>
+<h4> Number {{ card.number }}</h4>
+<h4>Expiry {{ card.Month}} / {{ card.Year }}</h4>
+<h4>Type {{ card.Type }}</h4>
+{% endfor %}
+{% endfor %}

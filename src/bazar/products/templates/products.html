@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}products{% endblock %}
+{% block navbar %}
+{% include 'navbar.html' %} 
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+<div class='row'>
+    <div class="col-md-4"></div>
+    <div class="col-md-8">
+            {% for product in products %}
+            <div class="row">
+            {% include 'list_item.html' with instance=product %}
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>   
+
+{% endblock %}

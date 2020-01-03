@@ -1,0 +1,51 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+    </script>
+    <script type='text/javascript'>
+    $(document).ready(function(){
+       $("#ShippingProfile").submit(function(event){
+        event.preventDefault()
+        
+        var action = $(this).attr("action")
+        var method = $(this).attr("method")
+        var data  =  $(this).serialize();
+
+        $.ajax({
+
+            url: action,
+            method:method,
+            data:data,
+            success: function(data)
+            {
+                alert("Address Added Successfully")
+                $("#pid").val(data.Profile_id)
+                $("#sp").submit()
+            },
+            error: function(data){
+                alert('something went wrong')
+            }
+        })
+       })
+    })
+    </script>
+
+    
+    </head>
+{% if profiles %}
+<div class="container">
+<div class="row">
+{% for profile in profiles %}
+{% include 'profile_item.html' with object=profile %}
+{% endfor %}
+</div>
+</div>
+{% endif %}
+
+<h2> Add New Delivery Address </h2>
+{% include 'profile.html'  with cart_id=cart %}
+
+<form method="POST",  class="select_address" action="{% url 'purchase:select_shipping_address' %}" id="sp">
+        {% csrf_token %}
+            <input type="hidden" class="form-control" id="pid"  name='profile', value= {{ profile.id }} />
+    </form>
+      

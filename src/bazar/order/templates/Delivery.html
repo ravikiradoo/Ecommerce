@@ -1,0 +1,5 @@
+<form method='POST' action="{% url 'shipping_profile:get_shipping_profiles' %}">  
+    {% csrf_token %}
+    <input type="hidden", name='cart', value='{{ cart.id }}' />
+    <button type="hidden" class="btn-success"> Continue </button>
+</form>

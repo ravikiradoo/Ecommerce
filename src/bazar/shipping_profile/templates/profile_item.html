@@ -1,0 +1,6 @@
+<div class="col-sm-6 col-md-4">
+    <h3>{{ profile.First_Name }} {{ profile.Last_Name }} </h3>
+    <h4>{{ profile.Address.Address }} </h4>
+    {% include 'select_address.html' with object=profile  %}
+</div>
+

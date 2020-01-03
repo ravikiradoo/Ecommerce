@@ -1,0 +1,21 @@
+{% if cart is not None %}
+{% for  cart_item in cart.cart_item.all %}
+
+<h3>{{ cart_item.product.title }} </h3>
+<h4> {{ cart_item.product.price }}</h4>
+<h4> Qty: {{  cart_item.quantity }}</h4> 
+{% include 'cart_remove.html'  with object=product %}
+{% endfor %}
+
+Total : {{ cart.total }}
+
+{% else %}
+<h2> Cart is Empty </h2>
+
+{% endif %}
+
+<form action="{% url 'purchase:create_purchase' %}" method="POST">
+    {% csrf_token  %}
+    <input type="hidden" name="cid" value="{{ cart.id }}"/>
+    <button class='btn btn-success'> Process to Buy</button>
+</form>

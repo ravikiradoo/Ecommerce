@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block  title %} Bazzer {% endblock %}
+{% block style %}
+{% endblock %}
+{% block js %}
+<style>
+  .card_item{
+    height: 350px;
+    padding: 10px;
+  }
+  .card_item .card{
+    width: 100%;
+  }
+</style>
+<script>
+$(document).ready(function(){
+
+
+          
+    
+    var searchForm = $("#sf")
+    var searchInput = searchForm.find("[name='q']")
+    searchInput.keyup(function(event){
+        
+        clearTimeout(1500)
+        setTimeout(preform_search,1000)
+    })
+    searchInput.keydown(function(event){
+        
+        clearTimeout(1500)
+    })
+
+    function  preform_search()
+    {
+        console.log(searchInput.val())
+
+    }
+
+    
+})
+</script>
+{% endblock %}
+
+{% block navbar %} {% include 'navbar.html' %} {% endblock %}
+
+    
+{% block content %}
+    
+            <div id="myCarousel" class="carousel slide">
+        
+        <!-- Indicators -->
+        <ul class="carousel-indicators">
+          <li class="item1 active"></li>
+          <li class="item2"></li>
+          <li class="item3"></li>
+          <li class="item4"></li>
+
+        </ul>
+        
+        <!-- The slideshow -->
+        <div class="carousel-inner">
+          <div  class="carousel-item active" >
+              <img src="{% static '/images/img1.jpg' %}" class="img-fluid">
+          </div>
+          <div class="carousel-item">
+            <img src="{% static '/images/img2.jpg' %}" class="img-fluid">
+          </div>
+          <div class="carousel-item">
+              <img src="{% static '/images/img3.jpg' %}" class="img-fluid">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static '/images/img4.jpg' %}" class="img-fluid">
+              </div>
+        </div>
+        </div>
+
+        
+<section class="carousel slide" data-ride="carousel" id="dod">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 text-md-right lead">
+                <a class="btn btn-outline-secondary prev" href="" title="go back"><i class="fa fa-lg fa-chevron-left"></i></a>
+                <a class="btn btn-outline-secondary next" href="" title="more"><i class="fa fa-lg fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="container carousel-inner">
+        <div class="carousel-item active">
+          <div class="row">
+              <div class="col-md-4 col-sm-6 card_item">
+                  <div class="card h-100" style="width: 18rem;">
+                          <img src="{% static '/images/fashion.jpg' %}" class="card-img-top h-50" alt="fashion" >
+                          <div class="card-body">
+                            <h5 class="card-title h-10">Fashion and Clothing </h5>
+                            <p class="card-text h-20"> Starting From Rs. 399 </p>
+                            <a href="/products/Fashion" class="btn btn-primary h-20">View</a>
+                          </div>
+                        </div>
+              </div>
+              <div class="col-md-4 col-sm-6 card_item">
+              <div class="card h-100" style="width: 18rem;">
+                            <img src="{% static '/images/shoes.jpg' %}" class="card-img-top h-50" alt="Shoes" >
+                            <div class="card-body">
+                              <h5 class="card-title h-10">Shoes </h5>
+                              <p class="card-text h-20"> Starting From Rs. 599 </p>
+                              <a href="/products/Shoes" class="btn btn-primary h-20">View</a>
+                            </div>
+                          </div>
+                        </div>
+                          <div class="col-md-4 col-sm-6 card_item">
+                          <div class="card h-100" style="width: 18rem;">
+                              <img src="{% static '/images/laptop.jpg' %}" class="card-img-top h-50" alt="laptop" >
+                              <div class="card-body">
+                                <h5 class="card-title h-10">Laptops </h5>
+                                <p class="card-text h-20"> Starting From Rs. 13399 </p>
+                                <a href="/products/Laptops" class="btn btn-primary h-20">View</a>
+                              </div>
+                            </div>
+              
+          </div>
+                        </div>
+
+                        
+            
+        </div>
+        <div class="carousel-item">
+          <div class="row">
+              <div class="col-md-4 col-sm-6 card_item">
+                  <div class="card h-100" style="width: 18rem;">
+                      <img src="{% static '/images/mobiles.jpg' %}" class="card-img-top h-50" alt="mobiles" >
+                      <div class="card-body">
+                        <h5 class="card-title h-10">Mobiles</h5>
+                        <p class="card-text h-20"> Starting From Rs. 5399 </p>
+                        <a href="/products/Mobiles" class="btn btn-primary h-20">View</a>
+                      </div>
+                    </div>
+                  </div>
+          </div>
+            
+          </div>
+      </div>
+  
+</section>
+    
+        
+      <script>
+      $(document).ready(function(){
+        // Activate Carousel with a specified interval
+        $("#myCarousel").carousel({interval: 8000});
+              
+        // Enable Carousel Indicators
+        $(".item1").click(function(){
+          $("#myCarousel").carousel(0);
+        });
+        $(".item2").click(function(){
+          $("#myCarousel").carousel(1);
+        });
+
+        $(".item3").click(function(){
+          $("#myCarousel").carousel(2);
+        });
+        $(".item4").click(function(){
+          $("#myCarousel").carousel(3);
+        });
+      });
+      $("dod").carousel({interval: 10000});
+      $('.next').click(function(){ $('#dod').carousel('next');return false; });
+    $('.prev').click(function(){ $('#dod').carousel('prev');return false; });
+      </script>
+      
+
+
+{% endblock %}
