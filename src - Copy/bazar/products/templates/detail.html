@@ -1,0 +1,14 @@
+<h1>{{ product.title }}</h1>
+
+<h5>About product</h5>
+
+<p>{{ product.description}}</p>
+{% if product.image %}
+<img src="{{ product.image.url }}">
+"{{ product.image.url }}"
+{% endif %}
+
+<span>Price: {{ product.price }}</span>
+
+<form></form>
+{% include 'add_to_cart.html' with obj=product.id  %}

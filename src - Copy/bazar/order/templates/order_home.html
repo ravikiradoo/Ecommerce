@@ -1,0 +1,24 @@
+
+<h1> Order Items </h1>
+{% for item in cart.cart_item.all %}
+<h2>{{ item.product }}</h2>
+<h4>Qty: {{ item.quantity }} </h4>
+<h4>Price: {{ item.product.price }}</h4>
+{% endfor %}
+<h4>Total: {{ cart.total }}</h4>
+
+<h1>Shipping Address </h1>
+<h2>Address: {{ shipping.Address.Address}}</h2>
+
+<h1>Payment Method </h1>
+{% if payment == 'COD' %}
+Cash On Delivery
+{% else %}
+Card Ending With {{ payment.last4}}
+{% endif %}
+
+<form action="{% url 'order:place_order' %}" method="POST">
+    {% csrf_token %}
+    <button type="submit"> Place Order </button>
+</form>
+

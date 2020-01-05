@@ -1,0 +1,64 @@
+[
+{
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+        "title": "Samsung Note 7",
+        "description": "Smart Phone\r\ncolor gray",
+        "price": "12000.00",
+        "image": "product_images/product_1.jpg"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+        "title": "Redmi Note 7",
+        "description": "4 GB RAM\r\nColor-black",
+        "price": "12000.00",
+        "image": "product_images/product_None.jpg"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+        "title": "Redmi Note 8",
+        "description": "RAM 8 GB\r\nROM 256 GB\r\ncolor black",
+        "price": "15000.00",
+        "image": "product_images/product_None.jpg"
+    }
+},
+{
+    "model": "products.tag",
+    "pk": 1,
+    "fields": {
+        "tag": "mobile",
+        "products": [
+            1,
+            2,
+            3
+        ]
+    }
+},
+{
+    "model": "products.tag",
+    "pk": 2,
+    "fields": {
+        "tag": "black",
+        "products": [
+            3
+        ]
+    }
+},
+{
+    "model": "products.tag",
+    "pk": 3,
+    "fields": {
+        "tag": "gray",
+        "products": [
+            1
+        ]
+    }
+}
+]

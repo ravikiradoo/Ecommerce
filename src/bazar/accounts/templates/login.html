@@ -1,3 +1,10 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <style>
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 .login-page {
@@ -99,25 +106,62 @@ body {
   -moz-osx-font-smoothing: grayscale;      
 }
 </style>
+<script>
+  $(document).ready(function(){
+   $('#login').click(function(event){
+     event.preventDefault()
+     $(".register-form").css('display','None');
+     $(".login-form").css('display','block')
 
+   });
+
+   $('#signup').click(function(event){
+    event.preventDefault()
+     $(".register-form").css('display','block');
+     $(".login-form").css('display','None')
+
+   });
+
+   $("#register").submit(function(event){
+    var data = $(this).serialize()
+    event.preventDefault()
+    $.ajax({
+      data : data,
+      method: "POST",
+      url: 'register',
+      success: function(data){
+        $("#message").html("<p>"+data.Message+"</p>")
+      }
+
+    })
+
+   });
+  });
+</script>
 <div class="login-page">
         <div class="form">
-          <form class="register-form">
-            <input type="text" placeholder="name"/>
-            <input type="password" placeholder="password"/>
-            <input type="text" placeholder="email address"/>
-            <button>create</button>
-            <p class="message">Already registered? <a href="#">Sign In</a></p>
+          <form class="register-form" id="register">
+              {% csrf_token %}
+            <input type="text" placeholder="Your Name" name="name" required/>
+            <input type="text" placeholder="Email" name="email"required/>
+            <input type="text" placeholder="Mobile Number" name="mobile" required/>
+            <input type="password" placeholder="Password" name="password" required/>
+            
+            <button type="submit">create</button>
+            <p class="message">Already registered? <a href="#" id='login'>Sign In</a></p>
+            <div id="message"></div>
           </form>
           <form class="login-form" method="POST" action="{% url 'account:login' %}">
             {% csrf_token %}
-            <input type="text" placeholder="username" name="username"/>
-            <input type="password" placeholder="password" name="password"/>
+            <input type="email" placeholder="Email" name="email" required/>
+            <input type="password" placeholder="password" name="password" required/>
             <button>login</button>
-            <p class="message">Not registered? <a href="#">Create an account</a></p>
+            <p class="message">Not registered? <a href="#" id='signup'>Create an account</a></p>
             {% if error %}
             <p> {{ error }} </p>
             {% endif %}
           </form>
         </div>
       </div>
+      
+      

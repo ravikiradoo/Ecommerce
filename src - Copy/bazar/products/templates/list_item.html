@@ -1,0 +1,9 @@
+
+<div class="col-md-6 col-sm-6">
+    {% if instance.image %}
+    <img src="{{ instance.image.url }}" class="card-img-top" alt="...">
+    {% endif %}
+</div>
+<div class="col-md-6 col-sm-6"><h5>
+    <a href="{{ instance.get_product_url }}" >{{ instance.title }}</a></h5>
+</div>

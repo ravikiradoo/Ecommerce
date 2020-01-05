@@ -1,0 +1,13 @@
+<form method="POST", action="{% url 'payment_method' %}">
+        {% for card in cards %}
+        <input type='radio',name='pmethod',value={{ card.stripe_id }}>
+        <h3>{{ card.brand }} </h3>
+        <h3>XXXX-XXXX-XXXX-{{ card.last4 }}</h3>
+        <h3> Expiry {{ card.Month }}/{{ card.Year }}</h3>
+        
+        {% endfor %}
+
+        <input type='radio' name='pmethod' value="COD">COD
+
+        <button type="submit" class="btn btn-success">Submit</button>
+</form>
