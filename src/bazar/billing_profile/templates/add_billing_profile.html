@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title  %}Address {% endblock %}
+{% block navbar %}{% endblock %}
+{% block js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+</script>
+<script type='text/javascript'>
+$(document).ready(function(){
+   $("#BillingProfile").submit(function(event){
+    event.preventDefault()
+    
+    var action = $(this).attr("action")
+    var method = $(this).attr("method")
+    var data  =  $(this).serialize();
+
+    $.ajax({
+
+        url: action,
+        method:method,
+        data:data,
+        beforeSend: function(){
+        $("#add_bprofile").html("Adding Billing Profile......");
+        },
+        success: function(data)
+        {
+            alert("Billing Added Successfully")
+            $("#add_bprofile").html("Use this Address");
+            $("#pid").val(data.Profile_id)
+            $("#bp").submit()
+        },
+        error: function(data){
+            alert('something went wrong')
+        }
+    })
+   })
+})
+</script>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+
+        <br>
+        <div class="row">
+            <div class="col-md-3 col-sm-3"></div>
+            <div class="col-md-6 col-sm-6">
+                    <img src="{% static '/images/billing.png' %}" >
+            </div>
+            <div class="col-md-3 col-sm-3"></div>
+        </div>
+        <hr>
+<div class="row">
+        <div class="col-md-5">
+                <h3> Select Billing Address </h3>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-6">
+                <h3> Add New Billing Profile </h3>
+        </div>
+</div>
+<hr>
+<div class="row">
+    
+    <div class="col-md-5">
+            
+            {% if profiles %}
+            {% for profile in profiles %}
+            {% include 'bprofile_item.html' with object=profile %}
+            {% endfor %}
+            {% endif %}
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-6">
+            
+            {% include 'bprofile.html' %}
+            
+            <form method="POST",  class="select_address" action="{% url 'purchase:select_billing_profile' %}" id="bp">
+                    {% csrf_token %}
+                        <input type="hidden" class="form-control" id="pid"  name='profile', value= {{ profile.id }} />
+                </form>
+    </div>
+
+</div>
+</div>
+
+
+      
+{% endblock %}
+
+

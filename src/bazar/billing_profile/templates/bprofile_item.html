@@ -1,0 +1,15 @@
+
+<div class="row">
+<div class="col-sm-12 col-md-12">
+<h5>{{ profile.First_Name }} {{ profile.Last_Name }} </h5>
+</div>
+<div class="col-sm-12 col-md-12">
+<h5>{{ profile.Address.Address }} </h5>
+</div>
+<div class="col-sm-12 col-md-12">
+{% include 'select_billing_profile.html' with object=profile  %}
+</div>
+
+</div>
+<hr>
+

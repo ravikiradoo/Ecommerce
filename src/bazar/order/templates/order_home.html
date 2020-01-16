@@ -1,24 +1,168 @@
+{% load static %}
+<html>
+    <head>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-<h1> Order Items </h1>
-{% for item in cart.cart_item.all %}
-<h2>{{ item.product }}</h2>
-<h4>Qty: {{ item.quantity }} </h4>
-<h4>Price: {{ item.product.price }}</h4>
-{% endfor %}
-<h4>Total: {{ cart.total }}</h4>
+    <script>
+    
+    $(document).ready(function(){
 
-<h1>Shipping Address </h1>
-<h2>Address: {{ shipping.Address.Address}}</h2>
+        $("#placeorder").submit(function(event){
+            event.preventDefault();
+            data=$(this).serialize();
+            $.ajax({
+                data:data,
+                method:'POST',
+                url:'/order/place/',
+                beforeSend:function(){
+                    $("#p_order").html("Placing Order....")
+                },
+                success:function(data)
+                {
+                    $("#p_order").html("Place Order")
+                    alert(data.Message);
+                    if (data.Success==true)
+                    {
+                        
+                        window.location.href = '/';
+                    }
+                    if(data.Error==true)
+                    {
+                        window.location.href = '/cart';
+                    }
+                    
+                }
 
-<h1>Payment Method </h1>
-{% if payment == 'COD' %}
-Cash On Delivery
-{% else %}
-Card Ending With {{ payment.last4}}
-{% endif %}
+            })
 
-<form action="{% url 'order:place_order' %}" method="POST">
-    {% csrf_token %}
-    <button type="submit"> Place Order </button>
-</form>
+        });
+    });
+    </script>
+    </head>
 
+    <body>
+            <div class="container-fluid">
+
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3"></div>
+                        <div class="col-md-6 col-sm-6">
+                                <img src="{% static '/images/placeorder.png' %}" >
+                        </div>
+                        <div class="col-md-3 col-sm-3"></div>
+                    </div>
+                    <hr>
+                <div class="row">
+                    <div class="col-md-2 col-sm-2"></div>
+                    
+                    <div class="col-md-9 col-sm-9" style="border:ghostwhite;border-style: solid;border-width: 1px; border-radius: 3px;">
+                            <h3>Review Your Order</h3>
+                            <hr>
+                        <div class="row">
+                            <div class="col-md-4 col-md-4">
+                                    
+                                    <h5>Shipping Address </h5>
+                                    <h5>{{ shipping.First_Name }} {{ shipping.Last_Name }}</h5>
+                                 <h6>Address: {{ shipping.Address.Address}}</h6>
+                            </div>
+
+                            <div class="col-md-4 col-md-4">
+                                    <h5>Billing Address </h5>
+                                    <h5>{{ billing.First_Name }} {{ billing.Last_Name }}</h5>
+                                 <h6>Address: {{ billing.Address.Address}}</h6>
+                            </div>
+                            <div class="col-md-4 col-md-4">
+                                    <h5>Payment Method </h5>
+                                    {% if payment == 'COD' %}
+                                        <h6>Cash On Delivery</h6>
+                                        {% else %}
+                                    <h6>Card Ending With {{ payment.last4}}</h6>
+            {% endif %}
+
+                            </div>
+                        </div>
+
+                        <hr>
+                        <h4> Order Items </h4>
+                        <div class="row">
+                                <div class="col-md-4 col-sm-4"></div>
+                                <div class="col-md-3 col-sm-3"><center><h5>Product</h5></center></div>
+                                <div class="col-md-1 col-sm-1"><center><h5>Qty</h5></div></center>
+                                <div class="col-md-2 col-sm-2"><center><h5>Price</h5></center></div>
+                                <div class="col-md-2 col-sm-2"><center><h5>In Stock</h5></center></div>
+    
+    
+                            </div>
+                            <hr>
+                        {% for item in cart.cart_item.all %}
+                        
+                        <div class="row">
+                        <div class="col-md-4">
+                            <img src={{ item.product.image.url}} style="max-height: 300px; height: 100%;">
+                            </div>
+                            <div class="col-md-3 col-sm-3">
+                                   <center><h6>{{ item.product }}</h6> </center>
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <h6><center>{{ item.quantity }}</center></h6> 
+                                   
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <h6><center>{{ item.product.price }}</center></h6>
+                                    
+                            </div>
+                            {% if item.product.stock > item.quantity %}
+                            <div class="col-md-2 col-sm-2"><center><h5 style="color:green"> In Stock</h5></center></div>
+                            {% else %}
+                            <div class="col-md-2 col-sm-2"><center><h5 style="color:red"> Out Of Stock</h5></center></div>
+                            {% endif %}
+
+
+    
+
+                        </div>
+                    </br>
+                        {% endfor %}
+                        <hr>
+                        <div class="row">
+                                <div class="col-md-2 col-sm-2">
+                                    <h5>Sub Total</h5>
+                                </div>
+                                <div class="col-md-8 col-sm-8">
+                                    </div>
+                                    <div class="col-md-2 col-sm-2">
+                                            <h5>{{ cart.total }}</h5>
+                                        </div>
+                            </div>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-10 col-sm-10">
+
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                        <form action="{% url 'order:place_order' %}" method="POST" id="placeorder">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-success" id='p_order'> Place Order </button>
+                                            </form>
+                                    </div>
+                            </div>
+                            
+
+                    </div>
+                    <div class="col-md-1 col-sm-1"></div>
+                    
+                </div>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+    </body>
+</htm>

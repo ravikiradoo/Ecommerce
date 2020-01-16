@@ -1,5 +1,5 @@
 
-<form method='POST' action="{% url 'order:place_order' %}">  
+<form method='POST' action="{% url 'order:place_order' %}" id="placeorder">  
         {% csrf_token %}
         <input type="hidden", name='cart', value='{{ cart.id }}' />
         <button type="hidden" class="btn-success"> Place Order </button>

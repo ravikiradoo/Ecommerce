@@ -11,5 +11,6 @@ class Purchase(models.Model):
     user        =  models.ForeignKey(USER, on_delete=models.CASCADE)
     active      = models.BooleanField(default=True)
     shipping_profile=models.IntegerField(null=True)
+    billing_profile=models.IntegerField(null=True)
     card            = models.IntegerField(null=True)
     cart_id         = models.IntegerField(null=True)

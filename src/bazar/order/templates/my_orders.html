@@ -1,4 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %} Your Orders{% endblock %}
+{% block navbar %}
+{% include 'navbar.html' with object=profile %}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+<h4> Your Orders </h4>
+<hr>
+
 {% for order in orders %}
-<h3>Order Id: {{ order.order_id }} </h3>
-<h3> status: {{ order.order_status }} </h3>
+<div class=" row">
+    <div class="col-md-2 col-sm-2"></div>
+    <div class="col-md-8 col-sm-8" style="font-size: 12px; border: rgb(240, 236, 236); border-style: solid; border-radius: 5px;margin: 10px;">
+        <div class="row" style="margin: 5px;">
+            <div class="col-md-3" >
+                Order# {{ order.order_id }}
+            </div>
+            <div class="col-md-2">
+                    Placed On </br>
+                    {{ order.created|date:'Y-m-d'}}
+                </div>
+
+                <div class="col-md-2">
+                        Total </br>
+                        {{ order.total }}
+                 </div>
+
+                 <div class="col-md-3">
+                        Ship To </br>
+                        {{ order.shipping_proile.First_Name }} {{ order.shipping_proile.Last_Name }}
+                 </div>
+
+        </div>
+        <h5>Order Items</h5>
+        <hr>
+        {% for item in order.order_item.all %}
+        <div class="row">
+            <diV class="col-md-3 col-sm-3">
+                <img src="{{ item.product.image.url}}" style="max-height: 100px; height: 100%;">
+            </diV>
+            <diV class="col-md-5 col-sm-5">
+                    <a href="{{ item.product.get_product_url }}"> {{ item.product }} </a>
+                </diV>
+        </div>
+        <br>
+        {% endfor %}
+
+    </div>
+</div>
 {% endfor %}
+</div>
+
+{% endblock %}

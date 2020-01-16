@@ -19,13 +19,12 @@ class Billing_Profile(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     First_Name = models.CharField(max_length=100)
     Last_Name  = models.CharField(max_length=100)
-    Email      = models.CharField(max_length=100)
     Phone      = models.CharField(max_length=25) 
     Address = models.ForeignKey(Address,on_delete=models.SET_NULL,null=True)
-    stripe_id = models.CharField(max_length=220,  null=True, blank=True)
+
     
 class Card(models.Model):
-    Billing_Profile = models.ForeignKey(Billing_Profile,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     stripe_id = models.CharField(max_length=100)
     Month  = models.IntegerField()
     Year   = models.IntegerField()
@@ -41,13 +40,6 @@ class Payments(models.Model):
     stripe_id = models.CharField(max_length=100,null=True)
 
 
-
-def get_stripe_id(sender,instance,*args,**kwargs):
-    if instance.Email is not None and instance.stripe_id is None:
-        customer = stripe.Customer.create(email=instance.Email)
-        instance.stripe_id = customer.id
-
-pre_save.connect(get_stripe_id,sender=Billing_Profile)
 
 
 

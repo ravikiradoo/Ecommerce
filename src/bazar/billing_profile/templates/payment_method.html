@@ -1,21 +1,47 @@
-<form method="POST", action="{% url 'purchase:set_payment_method' %}" id='select_payment_method'>
-  {% csrf_token %}
-    {% for card in cards %}
-    <input type='radio' name='pmethod' value="{{card.id}}"> {{ card.id }}
-  <h3>{{ card.brand }} </h3>
-    <h3>XXXX-XXXX-XXXX-{{ card.last4 }}</h3>
-    <h3> Expiry {{ card.Month }}/{{ card.Year }}</h3>
-    {% endfor %}
+{% load static %}
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class="col-md-3 col-sm-3"></div>
+        <div class="col-md-6 col-sm-6">
+                <img src="{% static '/images/payment.png' %}" >
+        </div>
+        <div class="col-md-3 col-sm-3"></div>
+    </div>
+    <hr>
 
-    <input type='radio' name='pmethod' value="-1">COD
+  <div class="row">
+    <div class="col-md-5">
+        <div class="row">
+            <div class="col-md-8 col-sm-8"> <h6>Your Saved Debit And Credit Cards </h6></div>
+            <div class="col-md-4 col-sm-4"><h6>Expires On </h6> </div>
+          </div>
+        <hr>
+        <form method="POST", action="{% url 'purchase:set_payment_method' %}" id='select_payment_method'>
+            {% csrf_token %}
+            {% if cards %}
+              {% for card in cards %}
+              
+            <div class="row">
+              <div class="col-md-8 col-sm-8"><input type='radio' name='pmethod' value="{{card.id}}"> XXXX-XXXX-XXXX-{{ card.last4 }}  {{ card.brand }} </div>
+              <div class="col-md-4 col-sm-4">{{ card.Month }}/{{ card.Year }}</div>
+            </div>
+            
+              {% endfor %}
+              {% else %}
+              <p>No Cards Added</p>
+              {% endif %}
+          
+              <input type='radio' name='pmethod' value="-1">COD
+            
+          </br>
+              <button type="submit" class="btn btn-success">Continue</button>
+          </form>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
 
-    <button type="submit" class="btn btn-success">Submit</button>
-</form>
-
-
-<div class="row">
-        <div class="col-md-6 col-10">
-    <form action="{% url 'billing_profile:create_payment_method'%}" method="post" id="payment-form">
+        <form action="{% url 'billing_profile:create_payment_method'%}" method="post" id="payment-form">
             {% csrf_token %}
         <div class="form-row">
           <label for="card-element">
@@ -28,11 +54,15 @@
           <!-- Used to display Element errors. -->
           <div id="card-errors" role="alert"></div>
         </div>
-      
-        <button class="btn btn-primary">Add Payment</button>
+      </br>
+        <button class="btn btn-primary" id="add_card">Add New Card</button>
       </form>
-      </div>
     </div>
+  </div>
+</div>
+
+
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -151,10 +181,14 @@
         data:data,
         method:"POST",
         url:"create_payment_method",
+        beforeSend:function()
+        {
+          $("#add_card").html("Adding New Card...")
+        },
         success:function(data){
+          $("#add_card").html("Add New Card")
           var add_payment = $( "<input type='radio' name='pmethod' value=" +data.card+" checked=True >")
            add_payment.appendTo("#select_payment_method")
-           alert($("#select_payment_method").serialize())
            $("#select_payment_method").submit()
         },
         error:function(data)

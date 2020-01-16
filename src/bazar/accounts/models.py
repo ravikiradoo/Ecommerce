@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager
 )
+from django.db.models.signals import pre_save
+import stripe
 # Create your models here.
 user_type= ( ('ADMIN','ADMIN'),
              ('EMPLOYEE','EMPLOYEE'),
@@ -39,6 +41,8 @@ class User(AbstractBaseUser):
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
     account_type = models.CharField(default='CUSTOMER',max_length=100, choices=user_type)
+    stripe_id = models.CharField(max_length=220,  null=True, blank=True)
+    
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -59,4 +63,18 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.staff
-    
+
+sex = (('MALE','MALE'),('FEMALE','FEMALE'))
+
+class Profile(models.Model):
+    user       = models.OneToOneField(User,on_delete=models.CASCADE)
+    Name       = models.CharField(max_length=100,null=True,blank=True)
+    Sex        = models.CharField(max_length=100,choices=sex,null=True,blank=True)
+    phone      = models.CharField(max_length=100,null=True,blank=True)
+
+def get_stripe_id(sender,instance,*args,**kwargs):
+    if instance.email is not None and instance.stripe_id is None:
+        customer = stripe.Customer.create(email=instance.email)
+        instance.stripe_id = customer.id
+
+pre_save.connect(get_stripe_id,sender=User)

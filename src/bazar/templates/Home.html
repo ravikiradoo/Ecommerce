@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block  title %} Bazzer {% endblock %}
+{% block  title %} Bazzar {% endblock %}
 {% block style %}
 {% endblock %}
 {% block js %}
@@ -42,7 +42,7 @@ $(document).ready(function(){
 </script>
 {% endblock %}
 
-{% block navbar %} {% include 'navbar.html' %} {% endblock %}
+{% block navbar %} {% include 'navbar.html' with object=profile %} {% endblock %}
 
     
 {% block content %}

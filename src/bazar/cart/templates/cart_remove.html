@@ -1,5 +1,5 @@
 <form method='POST' action="{% url 'cart:remove' %}">  
         {% csrf_token %}
-        <input type="hidden", name='product', value='{{ product.id }}' />
+        <input type="hidden", name='product', value='{{ cart_item.product.id }}' />
         <button type="submit" class="btn-success"> Remove </button>
     </form>

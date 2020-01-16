@@ -27,8 +27,17 @@ class Product(models.Model):
     price =         models.DecimalField(decimal_places=2,max_digits=10,default=0.0,null=False,blank=False)
     image =         models.ImageField(upload_to=get_file_name,blank=True,null=True)
     category =      models.CharField(max_length=100,null=True,blank=True)
+    stock    =      models.IntegerField(default=0)
     def __str__(self):
         return self.title
+    
+    def save(self,*args,**kwargs):
+        if self.id is None:
+            saved_image = self.image
+            self.image=None
+            super(Product,self).save(*args,**kwargs)
+            self.image=saved_image
+        super(Product,self).save(*args,**kwargs)
     
     def get_product_url(self):
         #return f"/products/product_detail/{self.id}"

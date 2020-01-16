@@ -1,51 +1,91 @@
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
-    </script>
-    <script type='text/javascript'>
-    $(document).ready(function(){
-       $("#ShippingProfile").submit(function(event){
-        event.preventDefault()
-        
-        var action = $(this).attr("action")
-        var method = $(this).attr("method")
-        var data  =  $(this).serialize();
-
-        $.ajax({
-
-            url: action,
-            method:method,
-            data:data,
-            success: function(data)
-            {
-                alert("Address Added Successfully")
-                $("#pid").val(data.Profile_id)
-                $("#sp").submit()
-            },
-            error: function(data){
-                alert('something went wrong')
-            }
-        })
-       })
-    })
-    </script>
-
+{% extends 'base.html' %}
+{% load static %}
+{% block title  %}Address {% endblock %}
+{% block navbar %}{% endblock %}
+{% block js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+</script>
+<script type='text/javascript'>
+$(document).ready(function(){
+   $("#ShippingProfile").submit(function(event){
+    event.preventDefault()
     
-    </head>
-{% if profiles %}
-<div class="container">
+    var action = $(this).attr("action")
+    var method = $(this).attr("method")
+    var data  =  $(this).serialize();
+
+    $.ajax({
+
+        url: action,
+        method:method,
+        data:data,
+        beforeSend: function()
+        {
+            $("#add_address").html("Adding New Address....")
+            
+        },
+        success: function(data)
+        
+        {
+            alert("Address Added Successfully")
+            $("#add_address").html("Deliver to this Address")
+            $("#pid").val(data.Profile_id)
+            $("#sp").submit()
+        },
+        error: function(data){
+            alert('something went wrong')
+        }
+    })
+   })
+})
+</script>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+    <br>
 <div class="row">
-{% for profile in profiles %}
-{% include 'profile_item.html' with object=profile %}
-{% endfor %}
+    <div class="col-md-3 col-sm-3"></div>
+    <div class="col-md-6 col-sm-6">
+            <img src="{% static '/images/shipping.png' %}" >
+    </div>
+    <div class="col-md-3 col-sm-3"></div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-5">
+        <h3>Select Delivery Address</h3>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-6">
+            <h3> Add New Delivery Address </h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+            {% if profiles %}
+            {% for profile in profiles %}
+            {% include 'profile_item.html' with object=profile %}
+            {% endfor %}
+            {% endif %}
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-6">
+           
+            {% include 'profile.html'  with cart_id=cart %}
+            
+            <form method="POST",  class="select_address" action="{% url 'purchase:select_shipping_address' %}" id="sp">
+                    {% csrf_token %}
+                        <input type="hidden" class="form-control" id="pid"  name='profile', value= {{ profile.id }} />
+                </form>
+    </div>
+
 </div>
 </div>
-{% endif %}
 
-<h2> Add New Delivery Address </h2>
-{% include 'profile.html'  with cart_id=cart %}
 
-<form method="POST",  class="select_address" action="{% url 'purchase:select_shipping_address' %}" id="sp">
-        {% csrf_token %}
-            <input type="hidden" class="form-control" id="pid"  name='profile', value= {{ profile.id }} />
-    </form>
       
+{% endblock %}
+

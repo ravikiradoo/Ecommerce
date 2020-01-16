@@ -1,0 +1,21 @@
+<hr>
+<div class="row">
+        <div class="col-md-4">
+                <img src={{ cart_item.product.image.url }} style="max-height: 200px;height: 100%;">
+        </div>
+    <div class="col-md-5">
+            <h5>{{ cart_item.product.title }} </h5>
+            <br>
+            {% include 'cart_remove.html'  with object=cart_item.product %}
+    </div>
+    <div class="col-md-1">
+            <h5> Quantity </h5> <br> <center> {{  cart_item.quantity }} </center>
+    </div>
+    <div class="col-md-2">
+            <h5> Price </h5> <br> {{ cart_item.product.price }}
+    </div>
+    
+</div>
+
+
+

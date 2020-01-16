@@ -7,30 +7,35 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           
       
-            <form class="form" method="GET" action='{% url "search_product" %}' id='sf' style="width: 50%;">
+          <form class="form" method="GET" action='{% url "search_product" %}' id='sf' style="width: 70%;">
 
-                <div class="input-group mb-3">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search" name='q'>
-                <span class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit">Search</button>
-                </span>
-                        
+              <div class="input-group mb-3">
+              <input class="form-control" type="search" placeholder="Search" aria-label="Search" name='q'>
+              <span class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="submit">Search</button>
+              </span>
                       
-                
-
-                </div>
+                    
               
-              </form>
-              <div class="nav navbar-nav navbar-center">
-              {% if request.user.is_authenticated %}
-              <div> Hello <br> {{ request.user }}</div>
-              <div><a href="order/my-orders"> Orders</a></div>
-              <div><a href="/cart"> Cart</a></div>
-              <div><a href="accounts/signout"> Logout </a></div>
 
-              {% else %}
-              <div> <a href="{% url 'account:loginpage' %}">Sign In</a> </div>
-              {% endif %}
+              </div>
+            
+            </form>
+            
+                    {% if request.user.is_authenticated %}
+                    <span style="color: white;float: right;margin-left: 10px;"> Hello, {{ profile.Name }}</span>
+                    <a href="order/my-orders" style="color: white;float: right;margin-left: 10px;" class="navbar-link "> Orders</a>
+                    <a href="/cart" style="color: white;float: right;;margin-left: 10px;" class="navbar-link"> Cart</a>
+                    <a href="/accounts/signout" style="color: white;float: right;;margin-left: 10px;" class="navbar-link"> Logout </a>
+      
+                    {% else %}
+                    
+                    
+                    
+                    <div > <a href="{% url 'account:loginpage' %}" style="color: white;float: right;margin-left: 10px;"> Hello, Sign In</a> </div>
+                    {% endif %}
+                    
+                
               
             </div>
           

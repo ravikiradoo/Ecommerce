@@ -129,8 +129,12 @@ body {
       data : data,
       method: "POST",
       url: 'register',
+      beforeSend: function(data){
+        $("#create").html("Creating User......");
+      },
       success: function(data){
-        $("#message").html("<p>"+data.Message+"</p>")
+        $("#message").html("<p>"+data.Message+"</p>");
+        $("#create").html("sign up");
       }
 
     })
@@ -147,7 +151,7 @@ body {
             <input type="text" placeholder="Mobile Number" name="mobile" required/>
             <input type="password" placeholder="Password" name="password" required/>
             
-            <button type="submit">create</button>
+            <button type="submit" id='create'>sign up</button>
             <p class="message">Already registered? <a href="#" id='login'>Sign In</a></p>
             <div id="message"></div>
           </form>

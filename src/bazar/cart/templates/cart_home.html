@@ -1,21 +1,30 @@
+{% extends 'base.html' %}
+{% block title %} Shopping Cart {% endblock %}
+{% block navbar %} {% include 'navbar.html' with object=profile %}{% endblock %}
+{% block content %} 
+<br>
+<br>
+<h4> Shopping Cart </h4>
+
+<div class="container-fluid">
 {% if cart is not None %}
 {% for  cart_item in cart.cart_item.all %}
+{% include 'cart_item.html'  with object=cart_item %}
 
-<h3>{{ cart_item.product.title }} </h3>
-<h4> {{ cart_item.product.price }}</h4>
-<h4> Qty: {{  cart_item.quantity }}</h4> 
-{% include 'cart_remove.html'  with object=product %}
 {% endfor %}
 
-Total : {{ cart.total }}
-
+<hr>
+<h5> SubTotal : {{ cart.total }} </h5>
+<form action="{% url 'purchase:create_purchase' %}" method="POST">
+        {% csrf_token  %}
+        <input type="hidden" name="cid" value="{{ cart.id }}"/>
+        <button class='btn btn-success'> Process to Buy</button>
+    </form>
 {% else %}
 <h2> Cart is Empty </h2>
 
 {% endif %}
+</div>
 
-<form action="{% url 'purchase:create_purchase' %}" method="POST">
-    {% csrf_token  %}
-    <input type="hidden" name="cid" value="{{ cart.id }}"/>
-    <button class='btn btn-success'> Process to Buy</button>
-</form>
+
+{% endblock %}

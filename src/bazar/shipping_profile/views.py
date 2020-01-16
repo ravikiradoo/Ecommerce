@@ -17,7 +17,6 @@ def Add_Shipping_Profile(request):
         if request.method =='POST':
             First_Name=request.POST.get('First_Name')
             Last_Name = request.POST.get('Last_Name')
-            Email     = request.POST.get('Email')
             Phone     = request.POST.get('Phone')
             Address_   = request.POST.get('Address')
             City      = request.POST.get('City')
@@ -25,7 +24,7 @@ def Add_Shipping_Profile(request):
             Country   = request.POST.get('Country')
             Zipcode   = request.POST.get('Zipcode')
             address   = Address.objects.create(Address=Address_,City=City,State=State,Country=Country,zipcode=Zipcode)
-            profile   = Shipping_Profile.objects.create(user=request.user,First_Name=First_Name,Last_Name=Last_Name,Email=Email,Phone=Phone,Address=address)
+            profile   = Shipping_Profile.objects.create(user=request.user,First_Name=First_Name,Last_Name=Last_Name,Phone=Phone,Address=address)
             response =  {'Profile_id':profile.id}
             return    JsonResponse(response)
         else:

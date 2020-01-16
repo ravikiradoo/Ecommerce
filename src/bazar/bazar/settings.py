@@ -59,6 +59,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+SENDGRID_KEY = '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'
+
 ROOT_URLCONF = 'bazar.urls'
 
 TEMPLATES = [
@@ -123,7 +125,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST= 'smtp.gmail.com'
+EMAIL_HOST_USER = 'kiradooravi@gmail.com'
+EMAIL_HOST_PASSWORD = '9214402505'
+EMAIL_PORT = 587
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 

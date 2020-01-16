@@ -18,9 +18,20 @@ def select_shipping_address(request):
              ps= Purchase.objects.get(user=request.user)
              ps.shipping_profile=request.POST.get("profile")
              ps.save()
+             return redirect("/billing/get_billing_profile")
+        except Purchase.DoesNotExist:
+            return redirect("/")
+
+def select_billing_profile(request):
+    if request.user.is_authenticated:
+        try:
+             ps= Purchase.objects.get(user=request.user)
+             ps.billing_profile=request.POST.get("profile")
+             ps.save()
              return redirect("/billing/select_payment_method")
         except Purchase.DoesNotExist:
             return redirect("/")
+
 
 def set_payment_method_view(request):
     if request.user.is_authenticated:
