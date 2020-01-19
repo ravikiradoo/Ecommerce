@@ -4,6 +4,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from .signals import object_viewed_signal
 from .utils import get_client_ip
+from django.db.models import Q
 # Create your models here.
 User = settings.AUTH_USER_MODEL
 

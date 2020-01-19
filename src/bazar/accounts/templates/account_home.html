@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Your Account
+{% endblock %}
+{% block js %}{% endblock %}
+{%  block navbar %}
+{% include 'navbar.html' with object=profile %} {% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 text-center">
+            <a href="/order/my-orders">
+            <img src='{% static "images/orders.png" %}'>
+            </a>
+              </div>
+              <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 text-center">
+                    <a href="/accounts/security">
+                    <img src='{% static "images/security.png" %}'>
+                    </a>
+                      </div>
+                      <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 text-center">
+                    <a href="/shipping/Show_Shipping_Profiles">
+                    <img src='{% static "images/daddress.png" %}'>
+                    </a>
+                      </div>
+                      <div class="col-md-4"></div>
+
+    </div>
+    <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 text-center">
+                    <a href="/accounts/changeprofile">
+                    <img src='{% static "images/payments.png" %}'>
+                    </a>
+                      </div>
+                      <div class="col-md-4"></div>
+    </div>
+
+           
+                      
+                              
+        </div>
+
+        
+           
+
+   
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+Add Delivery Address
+{% endblock %}
+{% block js %}
+
+{% endblock %}
+{% block content %} 
+<div class="container-fluid"> 
+
+        <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4" style="border:gray;border-width: 1px;border-style: solid;padding: 5px;">
+                        <h6 style="text-align: center;"> Add New Address</h6>
+                        <form method="POST" action="/shipping/add_new_profile/">
+                            {% csrf_token %}
+                        {% include 'sprofile.html' %}
+                        <button class="btn form-control" type="submit" style="background: purple;color: white;"> Add New Address </button>
+                     </form>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+</div>
+
+
+
+{% endblock %}

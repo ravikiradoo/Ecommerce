@@ -1,12 +1,18 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.http import HttpResponseRedirect,JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import Cart,cart_item
 from  products.models import Product
 from django.urls import reverse
+from analytics.models import ObjectViewed
 from accounts.models import Profile
+from analytics.utils import get_client_ip
+from django.db.models import Q
 
 # Create your views here.
 
+@login_required
 def cart_home(request):
     if request.user.is_authenticated:
         
@@ -15,7 +21,7 @@ def cart_home(request):
             qs = Cart.objects.get(user=request.user)
             
             return render(request,"cart_home.html",context={'cart':qs,'profile':profile})
-        except Cart.DoesNotExist:
+        except Cart.DoesNotExist:    
             return render(request,"cart_home.html",context={'cart':None,'profile':profile})
 
     return HttpResponse("Login first")
@@ -67,6 +73,8 @@ def cart_remove(request):
                 items = cart_obj.cart_item.all()
                 if not items.exists():
                     cart_obj.delete()
+                messages.success(request,"Item Has been Removed Successfully")
+                
                 return redirect("/cart")
         
             except Product.DoesNotExist:

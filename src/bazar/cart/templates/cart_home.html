@@ -2,10 +2,14 @@
 {% block title %} Shopping Cart {% endblock %}
 {% block navbar %} {% include 'navbar.html' with object=profile %}{% endblock %}
 {% block content %} 
-<br>
-<br>
-<h4> Shopping Cart </h4>
 
+{% for message in messages %}
+<div class="alert alert-success">
+    <strong>Success!</strong> {{ message }}
+  </div>
+{% endfor %}
+<h4> Shopping Cart </h4>
+<hr>
 <div class="container-fluid">
 {% if cart is not None %}
 {% for  cart_item in cart.cart_item.all %}
@@ -21,7 +25,7 @@
         <button class='btn btn-success'> Process to Buy</button>
     </form>
 {% else %}
-<h2> Cart is Empty </h2>
+<h5> Your Bag is Empty. </h5>
 
 {% endif %}
 </div>

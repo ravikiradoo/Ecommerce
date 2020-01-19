@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Delivery Address {% endblock %}
+{% block navbar %} {% include 'navbar.html' with object=profile%}{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %} 
+<div class="container-fluid">
+    <div id="message">
+            {% for m in messages %}
+            {% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{m}}
+            {% endif %}
+      
+            {% if m.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div class="alert alert-info alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{m}}
+            {% endif %}
+      
+            {% if m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <div class="alert alert-info alert-success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{m}}
+            {% endif %}
+            {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+                <div class="row">
+                        <div class="col-md-4 text-center" style="padding: 10px; margin:10px; border: gray;border-style: dashed;border-width: 1px;">
+                        <a href="/shipping/add_new_profile/"><img src='{% static "images/Address.png" %}'></a>
+                        </div>
+                        {% for add in profiles %}
+                        <div class="col-md-4" style="padding: 10px; margin:10px; border: gray;border-style: solid;border-width: 1px;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <strong>{{ add.First_Name }} {{ add.Last_Name}} </strong>
+                                    <p><strong>Address: </strong> {{ add.Address.Address }}</p>
+                                   <div class="row" >
+                                        <div class="col-md-6">
+                                                <form method="POST" action="/shipping/delete/">
+                                                    {% csrf_token %}
+                                                <input type="hidden" name='pid' value="{{ add.id }}"/>
+                                                <button type="submit" class="form-control" style="background: purple;color: white;"> Delete </button>
+                                                </form>
+                                            </div>
+                            
+                                            <div class="col-md-6">
+                                                    <form method="GET" action="/shipping/edit_profile/">
+                                                    <input type="hidden" name='pid' value="{{ add.id }}"/>
+                                                    <button type="submit" class="form-control" style="background: purple;color:white"> Edit </button>
+                                                    </form>
+                                                </div>
+                                   </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    
+                        {% endfor %}
+                    </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    
+</div>
+{% endblock %}

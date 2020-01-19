@@ -17,7 +17,7 @@ $(document).ready(function(){
                     $("#cartbutton").html("Adding to Cart......");
             },
             success : function(data){
-                alert(data.Message)
+                $("#message").html('<div class="alert alert-success"><strong>Success!</strong> '+data.Message+' <a href="/cart/"">Place Your Order!</a></div>')
                 $("#cartbutton").html("Add to Cart");
             }
 
@@ -30,6 +30,7 @@ $(document).ready(function(){
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
+    <div id="message"></div>
     <div class="row">
         <div class="col-md-5">
                 {% if product.image %}

@@ -10,6 +10,7 @@
 <h4> Your Orders </h4>
 <hr>
 
+{% if orders %}
 {% for order in orders %}
 <div class=" row">
     <div class="col-md-2 col-sm-2"></div>
@@ -51,6 +52,9 @@
     </div>
 </div>
 {% endfor %}
+{% else %}
+<h5>No Order has been placed from this account yet.</h5>
+{% endif %}
 </div>
 
 {% endblock %}

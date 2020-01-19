@@ -9,4 +9,4 @@ class Shipping_Profile(models.Model):
     First_Name = models.CharField(max_length=100)
     Last_Name  = models.CharField(max_length=100)
     Phone      = models.CharField(max_length=25) 
-    Address = models.ForeignKey(Address,on_delete=models.SET_NULL,null=True)
+    Address = models.OneToOneField(Address,on_delete=models.SET_NULL,null=True)

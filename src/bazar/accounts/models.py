@@ -2,8 +2,10 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager
 )
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save,post_save
 import stripe
+import string
+import random
 # Create your models here.
 user_type= ( ('ADMIN','ADMIN'),
              ('EMPLOYEE','EMPLOYEE'),
@@ -37,11 +39,20 @@ class UserManger(BaseUserManager):
 
 class User(AbstractBaseUser):
     email = models.EmailField(max_length=300, unique=True)
+    key   = models.CharField(max_length=300,unique=True,null=True,blank=True)
+    key_exp = models.IntegerField(default=1)
+    confirm_email = models.BooleanField(default=False)
     active = models.BooleanField(default=False)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
     account_type = models.CharField(default='CUSTOMER',max_length=100, choices=user_type)
     stripe_id = models.CharField(max_length=220,  null=True, blank=True)
+
+    def save(self,*args,**kwargs):
+        if self.id is None:
+            super(User,self).save(*args,**kwargs)
+            self.key = ''.join(random.choice(string.ascii_lowercase) for _ in range(random.randint(10,20))) + ''.join(str(random.randint(0,9)) for _ in range(5)) + str(self.id) +''.join(random.choice(string.ascii_lowercase) for _ in range(random.randint(10,20)))
+        super(User,self).save(*args,**kwargs)
     
 
     USERNAME_FIELD = 'email'
@@ -57,6 +68,10 @@ class User(AbstractBaseUser):
     @property
     def is_active(self):
         return self.active
+    @property
+    def is_email_confirmed(self):
+        return self.confirm_email
+
     @property
     def is_admin(self):
         return self.admin
@@ -76,5 +91,6 @@ def get_stripe_id(sender,instance,*args,**kwargs):
     if instance.email is not None and instance.stripe_id is None:
         customer = stripe.Customer.create(email=instance.email)
         instance.stripe_id = customer.id
+
 
 pre_save.connect(get_stripe_id,sender=User)
