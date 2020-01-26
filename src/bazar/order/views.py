@@ -11,7 +11,7 @@ import stripe
 from django.conf import settings
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-stripe.api_key = 'sk_test_8FspIcfPQB72KzJnfwXM2GXj00G7rH0TK5'
+
 # Create ysour views here.
 def order_home(request):
     if request.user.is_authenticated:
